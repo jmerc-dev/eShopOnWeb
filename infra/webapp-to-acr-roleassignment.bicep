@@ -16,3 +16,11 @@ resource webApp 'Microsoft.Web/sites@2022-03-01' existing = {
   name: 'app-${suffix}'
 }
 
+resource webAppToAcrRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = { 
+  scope: acr 
+  name: webAppToAcrRoleAssignmentName 
+  properties: { 
+    roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', acrPullRoleDefinitionID) 
+    principalId: webApp.identity.principalId 
+  } 
+}
